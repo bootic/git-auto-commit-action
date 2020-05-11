@@ -13,11 +13,16 @@ _main() {
 
         _add_files
 
-        _local_commit
+        if _git_is_actually_dirty; then
+            _local_commit
 
-        _tag_commit
+            _tag_commit
 
-        _push_to_github
+            _push_to_github
+        else
+            echo "::set-output name=changes_detected::false";
+            echo "Working tree clean. Nothing to commit.";
+        fi
     else
 
         echo "::set-output name=changes_detected::false";
@@ -32,8 +37,14 @@ _switch_to_repository() {
     cd $INPUT_REPOSITORY;
 }
 
-_git_is_dirty() {
+_git_is_actually_dirty() {
     [ -n "$(git status -s)" ]
+} 
+
+# This is almost always true with ignored enabled
+# 魔改代码
+_git_is_dirty() {
+    [ -n "$(git status -s --ignored)" ]
 }
 
 _switch_to_branch() {
