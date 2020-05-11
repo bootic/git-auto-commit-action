@@ -62,7 +62,7 @@ _add_files() {
 
 
     git add ${INPUT_FILE_PATTERN} \
-        ${INPUT_COMMIT_OPTIONS:+"${INPUT_COMMIT_OPTIONS_ARRAY[@]}"};
+        ${INPUT_ADD_OPTIONS:+"${INPUT_ADD_OPTIONS_ARRAY[@]}"};
 }
 
 _local_commit() {
