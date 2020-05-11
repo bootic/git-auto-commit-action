@@ -21,11 +21,14 @@ Add the following step at the end of your job, after other steps that might add 
     # Optional branch to push to, defaults to the current branch
     branch: feature-123
 
-    # Optional git params
+    # Optional git commit params
     commit_options: '--no-verify --signoff'
 
     # Optional glob pattern of files which should be added to the commit
     file_pattern: src/*.js tests/*.js
+
+    # Optional git add params
+    add_options: '--force'
 
     # Optional local file path to the repository
     repository: .
