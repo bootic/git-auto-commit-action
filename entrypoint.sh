@@ -13,11 +13,16 @@ _main() {
 
         _add_files
 
-        _local_commit
+        if _git_is_actually_dirty; then
+            _local_commit
 
-        _tag_commit
+            _tag_commit
 
-        _push_to_github
+            _push_to_github
+        else
+            echo "::set-output name=changes_detected::false";
+            echo "Working tree clean. Nothing to commit.";
+        fi
     else
 
         echo "::set-output name=changes_detected::false";
@@ -32,8 +37,14 @@ _switch_to_repository() {
     cd $INPUT_REPOSITORY;
 }
 
-_git_is_dirty() {
+# Detects only changes we are interested in
+_git_is_actually_dirty() {
     [ -n "$(git status -s)" ]
+} 
+
+# Detects all changes including ignored files
+_git_is_dirty() {
+    [ -n "$(git status -s --ignored)" ]
 }
 
 _switch_to_branch() {
@@ -45,7 +56,13 @@ _switch_to_branch() {
 
 _add_files() {
     echo "INPUT_FILE_PATTERN: ${INPUT_FILE_PATTERN}";
-    git add ${INPUT_FILE_PATTERN};
+    echo "INPUT_ADD_OPTIONS: ${INPUT_ADD_OPTIONS}";
+    echo "::debug::Apply add options ${INPUT_ADD_OPTIONS}";
+    INPUT_ADD_OPTIONS_ARRAY=( $INPUT_ADD_OPTIONS );
+
+
+    git add ${INPUT_FILE_PATTERN} \
+        ${INPUT_ADD_OPTIONS:+"${INPUT_ADD_OPTIONS_ARRAY[@]}"};
 }
 
 _local_commit() {
