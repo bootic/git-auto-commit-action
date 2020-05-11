@@ -38,7 +38,7 @@ Add the following step at the end of your job, after other steps that might add 
     commit_user_email: my-github-actions-bot@example.org
     commit_author: Author <actions@github.com>
 
-    # Optional tag message 
+    # Optional tag message
     # Action will create and push a new tag to the remote repository and the defined branch
     tagging_message: 'v1.0.0'
 ```
