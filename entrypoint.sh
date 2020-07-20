@@ -39,12 +39,12 @@ _switch_to_repository() {
 
 # Detects only changes we are interested in
 _git_is_actually_dirty() {
-    [ -n "$(git status -s)" ]
+    [ -n "$(git status ${INPUT_FILE_PATTERN} -s)" ]
 } 
 
 # Detects all changes including ignored files
 _git_is_dirty() {
-    [ -n "$(git status -s --ignored)" ]
+    [ -n "$(git status ${INPUT_FILE_PATTERN} -s --ignored)" ]
 }
 
 _switch_to_branch() {
